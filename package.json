@@ -1,5 +1,5 @@
 {
-  "name": "assert-counter",
+  "name": "smallest-hexa-finder",
   "displayName": "Assert Counter",
   "description": "Counts the number of times 'assert' or other specified strings appear in C++ files, provides range information, and highlights occurrences.",
   "version": "0.0.3",
@@ -11,14 +11,14 @@
     "Other"
   ],
   "activationEvents": [
-    "onCommand:assert-counter.countAsserts"
+    "onCommand:smallest-hexa-finder.countAsserts"
   ],
   "main": "./out/extension.js",
   "contributes": {
     "commands": [
       {
-        "command": "assert-counter.countAsserts",
-        "title": "Count Asserts and Show Range"
+        "command": "smallest-hexa-finder.countAsserts",
+        "title": "Smallest Hexa Number"
       }
     ],
     "configuration": {

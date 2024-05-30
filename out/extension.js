@@ -30,8 +30,8 @@ const SMALLEST_HEXA_NUMBER = 0x00000000;
 let decorationsArray = [];
 let decorationType;
 function activate(context) {
-    console.log('Congratulations, your extension "assert-counter" is now active!');
-    let disposable = vscode.commands.registerCommand('assert-counter.countAsserts', async () => {
+    console.log('Congratulations, your extension "smallest-hexa-finder" is now active!');
+    let disposable = vscode.commands.registerCommand('smallest-hexa-finder.countAsserts', async () => {
         const config = vscode.workspace.getConfiguration('assertCounter');
         const searchStrings = config.get('searchStrings') || [];
         const searchString = await vscode.window.showQuickPick(searchStrings, {
@@ -54,6 +54,7 @@ function activate(context) {
         }
     });
     context.subscriptions.push(disposable);
+    // TODO
     // Load the decoration style from configuration
     loadDecorationType();
     // Watch for configuration changes
@@ -116,14 +117,17 @@ async function countOccurrencesAndHighlight(searchString, progress) {
                 const decoration = { range: new vscode.Range(startPos, endPos) };
                 decorationsArray.push(decoration);
                 // Collect results
-                console.log(line.trim());
                 const inputString = line.trim();
                 const regex = /(.*?)(0x[0-9A-Fa-f]+)(.*)/;
-                const matcha = line.match(regex);
-                console.log(matcha);
-                if (matcha) {
-                    console.log(matcha[1]);
-                    results.push({ file: file.fsPath, line: lineIndex + 1, contentBeforeHex: matcha[1].trim(), hex: matcha[2].trim(), contentAfterHex: matcha[3].trim() });
+                const matchForColoredTableOutput = line.match(regex);
+                if (matchForColoredTableOutput) {
+                    results.push({
+                        file: file.fsPath,
+                        line: lineIndex + 1,
+                        contentBeforeHex: matchForColoredTableOutput[1].trim(),
+                        hex: matchForColoredTableOutput[2].trim(),
+                        contentAfterHex: matchForColoredTableOutput[3].trim()
+                    });
                 }
             }
         }
@@ -142,7 +146,7 @@ async function countOccurrencesAndHighlight(searchString, progress) {
         showResultsInPanel(results);
     }
     else {
-        vscode.window.showInformationMessage(`Total number of '${searchString}' in C++ files: ${count}\nNo hex numbers found.`);
+        vscode.window.showInformationMessage(`No hex numbers found.`);
     }
 }
 function applyDecorations() {
@@ -152,7 +156,7 @@ function applyDecorations() {
     }
 }
 function showResultsInPanel(results) {
-    const panel = vscode.window.createWebviewPanel('assertCounterResults', 'Assert Counter Results', vscode.ViewColumn.One, {});
+    const panel = vscode.window.createWebviewPanel('assertCounterResults', 'Results', vscode.ViewColumn.One, {});
     const htmlContent = generateResultsHtml(results);
     panel.webview.html = htmlContent;
 }
@@ -173,7 +177,7 @@ function generateResultsHtml(results) {
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Assert Counter Results</title>
+        <title>Results</title>
         <style>
             table { width: 100%; border-collapse: collapse; }
             th, td { border: 1px solid #ddd; padding: 8px; }
@@ -184,26 +188,21 @@ function generateResultsHtml(results) {
         </style>
     </head>
     <body>
-        <h1>Assert Counter Results</h1>
+        <h1>Results</h1>
         <table>
             <tr><th>File</th><th>Line</th><th>Content</th></tr>
             ${rows}
         </table>
         <script>
             document.addEventListener('DOMContentLoaded', function() {
-                // Function to wrap the number with a span tag
                 function highlightNumber() {
-					console.log("?????");
                     var cells = document.querySelectorAll('.cell-content');
                     cells.forEach(function(cell) {
                         var cellContent = cell.innerHTML;
-                        // Regular expression to match the number
                         var regex = /(0x[0-9A-Fa-f]+)/g;
                         cell.innerHTML = cellContent.replace(regex, '<span class="highlight">$1</span>');
                     });
                 }
-
-                // Call the function to highlight the number
                 highlightNumber();
             });
         </script>
