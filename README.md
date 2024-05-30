@@ -1,71 +1,91 @@
-# fd README
+# Smallest Hexadecimal Number Finder Extension
 
-This is the README for your extension "fd". After writing up a brief description, we recommend including the following sections.
+## Overview
+
+The `smallest-hexa-finder` extension for Visual Studio Code is designed to scan C++ files and identify assert or xlog statements that contain hexadecimal numbers as parameters. These hexadecimal numbers must be unique within the entire project. The extension searches for these hexadecimal numbers, prints their range, identifies the smallest available number for use, and displays a detailed table showing the files and line numbers where each assert occurred.
 
 ## Features
 
-Describe specific features of your extension including screenshots of your extension in action. Image paths are relative to this README file.
+- **Search and Identify**: Scan C++ files for assert or xlog statements with hexadecimal number parameters.
+- **Ask for User Input**: The user can select in a dropdown list the argument type to look for (eg. assert or xlog).
+<img width="614" alt="image" src="https://github.com/BodaViktoria/FD/assets/72062883/1b28c080-3b0f-48fc-9fbe-2f3e7a4a52f0">
 
-For example if there is an image subfolder under your extension project workspace:
+- **Hexadecimal Validation**: Ensure that the hexadecimal numbers are unique within the project.
+- **Range and Availability**: Display the range of found hexadecimal numbers and the smallest available number for use.
+<img width="478" alt="image" src="https://github.com/BodaViktoria/FD/assets/72062883/980982ee-113d-4ff9-b843-89b4a5611512">
 
-\!\[feature X\]\(images/feature-x.png\)
+- **Progress Reporting**: Show progress during the scanning operation.
+- **Results Panel**: Display results in an interactive webview panel, including a table of occurrences with file names and line numbers.
+<img width="1093" alt="image" src="https://github.com/BodaViktoria/FD/assets/72062883/88a377a3-ea79-4b77-bb71-4a7cff05034b">
 
-> Tip: Many popular extensions utilize animations. This is an excellent way to show off your extension! We recommend short, focused animations that are easy to follow.
 
-## Requirements
+## Installation
 
-If you have any requirements or dependencies, add a section describing those and how to install and configure them.
+1. Clone the repository or download the extension package.
+2. Open the extension folder in Visual Studio Code.
+3. Run `npm install` to install dependencies.
+4. Press `F5` on Windows or `fn + F5` on Mac to open a new VS Code window with the extension loaded.
 
-## Extension Settings
+## Usage
 
-Include if your extension adds any VS Code settings through the `contributes.configuration` extension point.
+### Activating the Extension
 
-For example:
+The extension is activated automatically upon opening Visual Studio Code. It registers a command `smallest-hexa-finder.countAsserts` which can be triggered via the command palette (`Ctrl+Shift+P`).
 
-This extension contributes the following settings:
+### Scanning for Asserts or Xlogs
 
-* `myExtension.enable`: Enable/disable this extension.
-* `myExtension.thing`: Set to `blah` to do something.
+1. Open the command palette (`Ctrl+Shift+P`).
+2. Type and select `Smallest Hexa Number`.
+<img width="614" alt="image" src="https://github.com/BodaViktoria/FD/assets/72062883/bbd9636d-49b0-495d-b78d-8ef9b3e9dc68">
 
-## Known Issues
+4. Select or enter a string to search for (eg. assert or xlog).
+5. The extension will scan for assert or xlog statements containing hexadecimal numbers in all `.cpp` files in the workspace.
 
-Calling out known issues can help limit users opening duplicate issues against your extension.
+### Results Panel
 
-## Release Notes
+After scanning, a results panel will display:
+- The range of found hexadecimal numbers.
+- The smallest available hexadecimal number for use.
+- A table with detailed information about each occurrence, including the file name and line number.
 
-Users appreciate release notes as you update your extension.
+## API
 
-### 1.0.0
+### activate(context: vscode.ExtensionContext)
 
-Initial release of ...
+Activates the extension and registers the `countAsserts` command.
 
-### 1.0.1
+### deactivate()
 
-Fixed issue #.
+Deactivates the extension.
 
-### 1.1.0
+### validateRegex(searchString: string): boolean
 
-Added features X, Y, and Z.
+Validates if the provided search string is a valid regular expression.
 
----
+### loadDecorationType()
 
-## Following extension guidelines
+Loads the decoration style from the configuration settings.
 
-Ensure that you've read through the extensions guidelines and follow the best practices for creating your extension.
+### escapeRegExp(string: string): string
 
-* [Extension Guidelines](https://code.visualstudio.com/api/references/extension-guidelines)
+Escapes special characters in a string to be used in a regular expression.
 
-## Working with Markdown
+### countOccurrencesAndHighlight(searchString: string, progress: vscode.Progress): Promise<void>
 
-You can author your README using Visual Studio Code. Here are some useful editor keyboard shortcuts:
+Counts occurrences of the specified assert or xlog statement, highlights them, and reports progress.
 
-* Split the editor (`Cmd+\` on macOS or `Ctrl+\` on Windows and Linux).
-* Toggle preview (`Shift+Cmd+V` on macOS or `Shift+Ctrl+V` on Windows and Linux).
-* Press `Ctrl+Space` (Windows, Linux, macOS) to see a list of Markdown snippets.
+### applyDecorations()
 
-## For more information
+Applies the decorations to all visible text editors.
 
-* [Visual Studio Code's Markdown Support](http://code.visualstudio.com/docs/languages/markdown)
-* [Markdown Syntax Reference](https://help.github.com/articles/markdown-basics/)
+### showResultsInPanel(results: Result[]): void
 
-**Enjoy!**
+Displays the results in an interactive webview panel.
+
+### generateResultsHtml(results: Result[]): string
+
+Generates HTML content to display the results in the webview panel.
+
+### computeSmallestAvailableNumber(hexNumbers: number[]): number
+
+Computes the smallest available hexadecimal number not used in the found assert or xlog statements.
