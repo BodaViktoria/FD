@@ -1,0 +1,59 @@
+{
+  "name": "assert-counter",
+  "displayName": "Assert Counter",
+  "description": "Counts the number of times 'assert' or other specified strings appear in C++ files, provides range information, and highlights occurrences.",
+  "version": "0.0.3",
+  "publisher": "your-publisher-name",
+  "engines": {
+    "vscode": "^1.60.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [
+    "onCommand:assert-counter.countAsserts"
+  ],
+  "main": "./out/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "assert-counter.countAsserts",
+        "title": "Count Asserts and Show Range"
+      }
+    ],
+    "configuration": {
+      "type": "object",
+      "title": "Assert Counter Configuration",
+      "properties": {
+        "assertCounter.searchStrings": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "default": ["assert", "xlog"],
+          "description": "List of strings to search for in C++ files."
+        },
+        "assertCounter.highlightColor": {
+          "type": "string",
+          "default": "rgba(255,140,0,0.3)",
+          "description": "Background color for highlighting occurrences."
+        },
+        "assertCounter.highlightBorderColor": {
+          "type": "string",
+          "default": "1px solid rgba(255,140,0,0.5)",
+          "description": "Border color for highlighting occurrences."
+        }
+      }
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./"
+  },
+  "devDependencies": {
+    "@types/node": "^14.14.37",
+    "@types/vscode": "^1.60.0",
+    "typescript": "^4.2.3",
+    "tslint": "^6.1.3"
+  }
+}
