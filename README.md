@@ -70,9 +70,9 @@ After scanning, a results panel will display:
 
   - Escapes special characters in a string to be used in a regular expression.
 
-- **countOccurrencesAndHighlight(searchString: string, progress: vscode.Progress): Promise<void>**
+- **countOccurrences(searchString: string, progress: vscode.Progress): Promise<void>**
 
-  - Counts occurrences of the specified assert or xlog statement, highlights them, and reports progress.
+  - Counts occurrences of the specified assert or xlog statement and reports progress.
 
 - **applyDecorations()**
 
@@ -88,4 +88,4 @@ After scanning, a results panel will display:
 
 - **computeSmallestAvailableNumber(hexNumbers: number[]): number**
 
-  - Computes the smallest available hexadecimal number not used in the found assert or xlog statements.
+  - Computes the smallest available hexadecimal number not used in the found assert or xlog statements, separately.
