@@ -48,44 +48,44 @@ After scanning, a results panel will display:
 - The smallest available hexadecimal number for use.
 - A table with detailed information about each occurrence, including the file name and line number.
 
-## API
+## Methods
 
-### activate(context: vscode.ExtensionContext)
+- **activate(context: vscode.ExtensionContext)**
 
-Activates the extension and registers the `countAsserts` command.
+  - Activates the extension and registers the `countAsserts` command.
 
-### deactivate()
+- **deactivate()**
 
-Deactivates the extension.
+  - Deactivates the extension.
 
-### validateRegex(searchString: string): boolean
+- **validateRegex(searchString: string): boolean**
 
-Validates if the provided search string is a valid regular expression.
+  - Validates if the provided search string is a valid regular expression.
 
-### loadDecorationType()
+- **loadDecorationType()**
 
-Loads the decoration style from the configuration settings.
+  - Loads the decoration style from the configuration settings.
 
-### escapeRegExp(string: string): string
+- **escapeRegExp(string: string): string**
 
-Escapes special characters in a string to be used in a regular expression.
+  - Escapes special characters in a string to be used in a regular expression.
 
-### countOccurrencesAndHighlight(searchString: string, progress: vscode.Progress): Promise<void>
+- **countOccurrencesAndHighlight(searchString: string, progress: vscode.Progress): Promise<void>**
 
-Counts occurrences of the specified assert or xlog statement, highlights them, and reports progress.
+  - Counts occurrences of the specified assert or xlog statement, highlights them, and reports progress.
 
-### applyDecorations()
+- **applyDecorations()**
 
-Applies the decorations to all visible text editors.
+  - Applies the decorations to all visible text editors.
 
-### showResultsInPanel(results: Result[]): void
+- **showResultsInPanel(results: Result[]): void**
 
-Displays the results in an interactive webview panel.
+  - Displays the results in an interactive webview panel.
 
-### generateResultsHtml(results: Result[]): string
+- **generateResultsHtml(results: Result[]): string**
 
-Generates HTML content to display the results in the webview panel.
+  - Generates HTML content to display the results in the webview panel.
 
-### computeSmallestAvailableNumber(hexNumbers: number[]): number
+- **computeSmallestAvailableNumber(hexNumbers: number[]): number**
 
-Computes the smallest available hexadecimal number not used in the found assert or xlog statements.
+  - Computes the smallest available hexadecimal number not used in the found assert or xlog statements.
